@@ -1,24 +1,24 @@
 const express = require('express');
 const restricted = require('./restricted-middleware.js')
-const Users = require('./users-model.js')
+const User = require('./user-model.js')
 
 const router = express.Router()
 
-router.get('/users', (req, res) => {
+router.get('/user', (req, res) => {
 
-    Users.findAll()
-    .then(users => {
-        res.status(200).json(users)
+    User.findAll()
+    .then(user => {
+        res.status(200).json(user)
     })
     .catch(() => {
-        res.status(500).json({ message: 'Error Retrieving Users' })
+        res.status(500).json({ message: 'Error Retrieving User' })
     })
 })
 
-router.get('/users/:id', (req, res) => {
+router.get('/user/:id', (req, res) => {
     const id  = req.params.id
 
-    Users.findById(id)
+    User.findById(id)
     .then(user => {
         if(user.id > 0){
             return res.status(200).json(user)
@@ -31,14 +31,14 @@ router.get('/users/:id', (req, res) => {
     })
 })
 
-router.patch('/users/:id', (req, res) => {
+router.patch('/user/:id', (req, res) => {
     const id  = req.params.id;
     const changes = req.body;
 
-    Users.findById(id)
+    User.findById(id)
     .then(user => {
         if (user){
-            Users.update(changes, id)
+            User.update(changes, id)
             .then(updatedUser => {
                 res.status(200).json(updatedUser)
             });
@@ -51,21 +51,21 @@ router.patch('/users/:id', (req, res) => {
     })
 })
 
-router.delete('/users', (req, res) => {
+router.delete('/user', (req, res) => {
 
-    Users.removeAll()
+    User.removeAll()
     .then(() => {
-        res.status(200).json({ message: 'All users successfully deleted' })
+        res.status(200).json({ message: 'All user successfully deleted' })
     })
     .catch(() => {
-        res.status(500).json({ message: 'Unable to delete users' })
+        res.status(500).json({ message: 'Unable to delete user' })
     })
 })
 
-router.delete('/users/:id', (req, res) => {
+router.delete('/user/:id', (req, res) => {
     const id  = req.params.id;
 
-    Users.remove(id)
+    User.remove(id)
     .then(deleted => {
         if(deleted) {
             res.status(200).json({ message: 'user Removed' })
