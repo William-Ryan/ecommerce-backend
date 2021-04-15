@@ -3,7 +3,7 @@ exports.up = function(knex) {
       user.increments();
       
       user
-      .string('username', 100)
+      .string('email', 100)
       .notNullable()
 
       user
