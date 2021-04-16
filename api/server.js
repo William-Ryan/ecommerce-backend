@@ -8,6 +8,8 @@ const userRouter = require('../user/user-router.js')
 
 const marketRouter = require('../market/market-router.js')
 
+const cartRouter = require('../cart/cart-router.js')
+
 const server = express();
 
 const minuteLimiter = rateLimit({
@@ -32,6 +34,8 @@ server.use("/api", authUser)
 server.use("/api", userRouter)
 
 server.use("/api/store", marketRouter)
+
+server.use("/api/store", cartRouter)
 
 server.get("/", (req, res) => {
     res.status(200).json({ api: "up" });
