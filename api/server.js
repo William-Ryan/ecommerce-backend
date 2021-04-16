@@ -3,6 +3,11 @@ const helmet = require('helmet')
 const cors = require('cors')
 const rateLimit = require("express-rate-limit");
 
+const authUser = require('../user/authUser-router.js')
+const userRouter = require('../user/user-router.js')
+
+const marketRouter = require('../market/market-router.js')
+
 const server = express();
 
 const minuteLimiter = rateLimit({
@@ -22,6 +27,11 @@ server.use(helmet());
 server.use(cors());
 server.use(minuteLimiter)
 server.use(hourLimiter)
+
+server.use("/api", authUser)
+server.use("/api", userRouter)
+
+server.use("/api/store", marketRouter)
 
 server.get("/", (req, res) => {
     res.status(200).json({ api: "up" });
