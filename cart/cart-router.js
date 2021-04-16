@@ -14,32 +14,37 @@ router.get('/cart', (req, res) => {
     })
 })
 
-router.get('/cart/:id', (req, res) => {
-    const id  = req.params.id;
-
-    Cart.findById(id)
-    .then(cart => {
-        if(cart.id >= 0){
-            return res.status(200).json(cart)
-        } else {
-            return res.status(404).json({ message: 'Error id invalid' })
-        }
-    })
-    .catch(() => {
-        res.status(500).json({ message: 'Error Retrieving cart column' })
-    })
+router.get('/cart/:user_id', (req, res) => {
+    const user_id  = req.params.user_id;
+    console.log(req.params.user_id)
+    try{
+        Cart.findByUserId(user_id)
+        .then(cart => {
+            {
+                return res.status(200).json(cart)
+            }
+        })
+        .catch(() => {
+            res.status(500).json({ message: 'Error Retrieving cart column' })
+        })
+    } catch (err) {
+        res.status(500).json({error: err.message})
+    }
 })
 
 router.post('/cart', (req, res) => {
     const data = req.body;
-
-    Cart.add(data)
-    .then(cart => {
-        res.status(201).json(cart)
-    })
-    .catch(() => {
-        res.status(500).json({ message: 'Failed to Create cart column'})
-    })
+    try{
+        Cart.add(data)
+        .then(cart => {
+            res.status(201).json(cart)
+        })
+        .catch((err) => {
+            res.status(500).json({ message: 'Failed to Create cart column', error: err.message})
+        })
+    } catch (err){
+        res.status(500).json({ message: err.message})
+    }
 })
 
 router.put('/cart/:id', (req, res) => {

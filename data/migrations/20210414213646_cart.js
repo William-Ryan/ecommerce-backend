@@ -1,6 +1,6 @@
 exports.up = function(knex) {
     return knex.schema.createTable('cart', cart => {
-      cart.primary(['user_id']);
+      cart.increments();
 
       cart.integer('user_id')
         .unsigned()
@@ -19,6 +19,7 @@ exports.up = function(knex) {
         .onDelete('RESTRICT')
     
       cart.integer('quantity')
+        .notNullable()
   })
 };
   

@@ -3,6 +3,7 @@ const db = require('../data/dbConfig.js')
 module.exports = {
     findAll,
     findById,
+    findByUserId,
     add,
     update,
     removeAll,
@@ -17,6 +18,14 @@ function findById(id) {
     return db('cart')
         .where({ id })
         .first()
+}
+
+function findByUserId(user_id) {
+    return db('cart as c')
+        .select('c.user_id', 'c.quantity','u.name', 'm.name', 'm.category', 'm.seller')
+        .join('user as u', 'c.user_id', "=", "u.id")
+        .join('market as m', 'c.market_id', "=", "m.id")
+        .where({ user_id })
 }
 
 function add(data){
