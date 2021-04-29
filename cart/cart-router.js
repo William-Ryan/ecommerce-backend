@@ -16,7 +16,7 @@ router.get('/cart', (req, res) => {
 
 router.get('/cart/:user_id', (req, res) => {
     const user_id  = req.params.user_id;
-    console.log(req.params.user_id)
+    
     try{
         Cart.findByUserId(user_id)
         .then(cart => {
