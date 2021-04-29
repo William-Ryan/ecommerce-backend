@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const Admin = require('./admin-model.js');
-const { jwtSecret } = require('../users/secrets.js');
+const { adminSecret } = require('./adminSecret.js');
 
 router.post('/createadmin', (req, res) => {
   let user = req.body;
@@ -53,7 +53,7 @@ function generateToken(user){
     expiresIn: '1h',
   }
 
-  return jwt.sign(payload, jwtSecret, options)
+  return jwt.sign(payload, adminSecret, options)
 }
 
 module.exports = router

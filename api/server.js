@@ -6,6 +6,9 @@ const rateLimit = require("express-rate-limit");
 const authUser = require('../user/authUser-router.js')
 const userRouter = require('../user/user-router.js')
 
+const authAdmin = require('../admin/authMain-router.js')
+const adminRouter = require('../admin/admin-router.js')
+
 const marketRouter = require('../market/market-router.js')
 
 const cartRouter = require('../cart/cart-router.js')
@@ -32,6 +35,9 @@ server.use(hourLimiter)
 
 server.use("/api", authUser)
 server.use("/api", userRouter)
+
+server.use("/api", authAdmin)
+server.use("/api", adminRouter)
 
 server.use("/api/store", marketRouter)
 
