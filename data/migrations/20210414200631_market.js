@@ -15,10 +15,10 @@ exports.up = function(knex) {
       .notNullable()
 
       market
-      .string('seller')
+      .integer('seller')
       .unsigned()
       .notNullable()
-      .references('name')
+      .references('id')
       .inTable('user')
       .onUpdate('CASCADE')
       .onDelete('CASCADE')

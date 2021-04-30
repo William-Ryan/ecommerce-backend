@@ -10,7 +10,9 @@ module.exports = {
 }
 
 function findAll(){
-    return db('market')
+    return db('market as m')
+        .select('m.*', 'u.name as sellerName')
+        .join('user as u', 'm.seller', '=', 'u.id')
 }
 
 function findById(id) {
