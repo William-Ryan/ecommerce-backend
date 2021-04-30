@@ -10,6 +10,7 @@ const authAdmin = require('../admin/authMain-router.js')
 const adminRouter = require('../admin/admin-router.js')
 
 const marketRouter = require('../market/market-router.js')
+const imageRouter = require('../image/image-router.js')
 
 const cartRouter = require('../cart/cart-router.js')
 
@@ -40,7 +41,7 @@ server.use("/api", authAdmin)
 server.use("/api", adminRouter)
 
 server.use("/api/store", marketRouter)
-
+server.use("/api/store", imageRouter)
 server.use("/api/store", cartRouter)
 
 server.get("/", (req, res) => {

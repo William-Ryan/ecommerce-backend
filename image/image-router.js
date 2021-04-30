@@ -1,7 +1,12 @@
 const express = require('express');
 const Image = require('./image-model')
+const { cloudinary } = require('../utils/cloudinary.js');
 
 const router = express.Router()
+
+router.use(express.static('public'));
+router.use(express.json({ limit: '50mb' }));
+router.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 router.get('/image', (req, res) => {
     
@@ -30,16 +35,30 @@ router.get('/image/:id', (req, res) => {
     })
 })
 
-router.post('/image', (req, res) => {
-    const data = req.body;
+router.post('/image', async (req, res) => {
+    const market_id = req.body.item;
+    
+    try {
+        const fileStr = req.body.image;
+        const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: 'ecommerce'
+        });
+        
+        const data = {image: uploadResponse.url, item: market_id}
 
-    Image.add(data)
-    .then(image => {
-        res.status(201).json(image)
-    })
-    .catch(() => {
-        res.status(500).json({ message: 'Failed to Create image column'})
-    })
+        Image.add(data)
+            .then(image => {
+                res.status(201).json(image)
+            })
+            .catch(() => {
+                res.status(500).json({ message: 'Failed to Create image column'})
+            })
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ err: err.message });
+    }
+
+    
 })
 
 router.put('/image/:id', (req, res) => {
