@@ -7,6 +7,10 @@ exports.up = function(knex) {
       .notNullable()
 
       market
+      .decimal('price')
+      .notNullable()
+
+      market
       .string('category')
       .notNullable()
     
