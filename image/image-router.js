@@ -20,7 +20,7 @@ router.get('/image', (req, res) => {
 })
 
 router.get('/image/:id', (req, res) => {
-    const id  = req.params.id;
+    const id  = req.params.item;
 
     Image.findById(id)
     .then(image => {
